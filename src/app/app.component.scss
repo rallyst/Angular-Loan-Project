@@ -1,0 +1,55 @@
+.container {
+  padding: 30px;
+  max-width: 850px;
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  padding: 32px;
+  margin-bottom: 32px;
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+  box-shadow: 1px 1px 4px rgba(128, 128, 128, .3);
+  border: 1px solid rgba(48, 50, 71, 0.1);
+  border-radius: 20px;
+}
+
+.details {
+  display: flex;
+
+  &-item {
+    margin-right: 30px;
+  }
+}
+
+.title {
+  font-size: 1.25rem;
+  margin-bottom: 16px;
+}
+
+.label {
+  position:absolute;
+  top: 13px;
+  right: 32px;
+  font-size: 1rem;
+  font-weight: 500;
+  color:#51A571;
+  margin-bottom: 13px;
+}
+
+.button-block {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.total-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.total {
+  font-size: 1.25rem;
+  font-weight: 500;
+}
