@@ -1,40 +1,24 @@
-<!-- <div class="form-container">
-  <h2 mat-dialog-title>
-    Invest in Loan
-  </h2>
-  <a class="close-btn" (click)="dialogRef.close(false)">x</a>
-  <mat-dialog-content>
-    <h3>{{ data.title }}</h3>
-      <form [formGroup]="form">
-        <mat-form-field appearance="standard">
-            <input autocomplete="off" matInput placeholder="Enter your amount" formControlName="investedAmount">
-        </mat-form-field>
-      </form>
-  
-  <mat-dialog-actions>
-    <app-button 
-      [disabled]="form.invalid" 
-      (click)="submit(form.value)">invest</app-button>
-  </mat-dialog-actions>
-  </mat-dialog-content>
-</div> -->
-
-<div class="form-container">
+<div class="container">
   <h2 class="header">
     Invest in Loan
   </h2>
-  <a class="close-btn" (click)="dialogRef.close(false)">x</a>
-  <div>
-    <h3>{{ data.title }}</h3>
-      <form [formGroup]="form">
-            <input type="number" autocomplete="off" placeholder="Enter your amount" formControlName="investedAmount">
-      </form>
-  
-  <div>
+  <a (click)="close()"><span class="close-btn"></span></a>
+  <div class="loan-data">
+    <h3 class="title">{{ data.title }}</h3>
+    <h4 class="details">Amount available: ${{ data.available | number: '2.' }}</h4>
+    <h4 class="details">Loan ends in: {{ data.term_remaining | date:'m'}} month </h4> 
+  </div>
+  <h2 class="form-header">Investment amount</h2>
+  <div class="form-control">
+    <form [formGroup]="form">
+      <input 
+        type="number" 
+        autocomplete="off" 
+        placeholder="Enter your amount" 
+        formControlName="investedAmount">
+    </form>
     <app-button 
-      [disabled]="form.invalid" 
+      [disabled]="form.invalid || data.available < form.value.investedAmount" 
       (click)="submit(form.value)">invest</app-button>
   </div>
 </div>
-</div>
-

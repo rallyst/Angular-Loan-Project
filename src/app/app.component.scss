@@ -29,6 +29,8 @@
 }
 
 .label {
+  visibility: hidden;
+  opacity: 0;
   position:absolute;
   top: 13px;
   right: 32px;
@@ -52,4 +54,10 @@
 .total {
   font-size: 1.25rem;
   font-weight: 500;
+}
+
+.visible {
+  visibility: visible;
+  opacity: 1;
+  transition: all 1s
 }

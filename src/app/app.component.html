@@ -1,21 +1,19 @@
+<app-header></app-header>
 <section class="container">
   <div class="card" *ngFor="let loan of loans; let i = index">
     <div >
       <h3 class="title">{{ loan.title }}</h3>
       <div class="details">
         <div class="details-item">Amount available: {{ loan.available }}</div>
-        <div class="details-item">Loan ends in: {{ loan.term_remaining }}</div>
+        <div class="details-item">Loan ends in: {{ loan.term_remaining | date:'m'}} month</div>
       </div>
     </div>
     <div class="button-block">
-      <app-button (click)="showPrompt(i)">invest</app-button>
+      <app-button (click)="showDialog(i)">invest</app-button>
     </div>
-    <span class="label">Invested</span>
+    <span class="label {{loan.id}}" [ngClass]="{'visible': selected == loan.id || invested.includes(loan.id)}">Invested</span>
   </div>
-
   <div class=total-container>
-    <span class="total">Total amount available for investment:</span><span class="total">${{ totalAmount | number: '2.'}}</span>
+    <span class="total">Total amount available for investment:</span><span class="total">${{ totalAmount | number: '2.' }}</span>
   </div>
-
-  <div>{{dataFromDialog}}</div>
 </section>

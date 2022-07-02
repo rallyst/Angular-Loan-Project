@@ -2,10 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog,  MatDialogConfig  } from '@angular/material/dialog';
 import { DialogComponent } from './components/dialog/dialog.component';
 import { Loan } from './models/loan';
-// import loansJSON from './current-loans.json';
-import { HttpClient } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
-// import { MatCardModule } from '@angular/material/card';
+import { LoanService } from './services/loan.service';
 
 
 @Component({
@@ -14,73 +11,61 @@ import { Observable, Subject } from 'rxjs';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  title = 'LOAN-Project';
   loans!: Loan[];
-
+  loan!: Loan;
   subscription!: any;
 
-
-  totalAmount: any = 238456;
-  // loans$ = new Observable<Loan[]>();
-
-  // _contactsSubject: Subject<any> = new Subject<any>();
-
-  newAdd: Loan = {
-    id: '3',
-    title: 'amy'
-  }
-
-  private jsonURL = './assets/current-loans.json';
+  totalAmount = 0;
+  invested: string[] = []
+  selected!: string;
+  
   constructor(
     public dialog: MatDialog,
-    private http: HttpClient) {}
-
-    public getJSONData(): Observable<any> {
-      return this.http.get(this.jsonURL)
-    }
-
-
-    add() {
-      console.log('click')
-    }
+    private loanService: LoanService) {}
 
   ngOnInit() {
-    // this.loans$ = this.getJSONData()
-    this.subscription = this.getJSONData()
-      .subscribe(data => {
-        this.loans = data.loans;
-      });
-
-      // console.log(this.loans)
+    this.subscription = this.loanService.getJSONData()
+    .subscribe(data => {
+      this.loans = data.loans;
+      this.loans.map((loan: any) => {
+        this.totalAmount += this.loanService.convertStringToNumber(loan.amount);
+      })
+    });
   }
-
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe()
-  }
-
-  dataFromDialog : any;
-
-  showPrompt(index: any): void {
-    console.log(index)
-
+  
+  showDialog(index: number): void {
     const dialogData = new MatDialogConfig();
 
     dialogData.data = {
       title: this.loans[index].title,
-      available: this.loans[index].available,
+      available: this.loanService.convertStringToNumber(this.loans[index].available),
       term_remaining: this.loans[index].term_remaining,
     }
     
-     const dialogRef = this.dialog.open(DialogComponent, dialogData);
- 
-     dialogRef.afterClosed().subscribe((data) => {
-       this.dataFromDialog = data.form.investedAmount;
-       if (data.clicked === 'submit') {
-         console.log('Sumbit button clicked')
-         console.log(this.dataFromDialog)
-       }
-     });
-   }
-}
+    const dialogRef = this.dialog.open(DialogComponent, dialogData);
+    dialogRef.updateSize('627px','499px')
 
+    dialogRef.afterClosed().subscribe((data) => {
+      this.calculations(data, index)
+    });
+  }
+
+  calculations(data: any, index: number) {
+      if (data) {
+        const available = this.loanService.convertStringToNumber(this.loans[index].available);
+        const amount = this.loanService.convertStringToNumber(this.loans[index].available);
+
+        this.loans[index].available = this.loanService.convertNumberToStringFormat(available, data.form.investedAmount);
+        this.loans[index].amount = this.loanService.convertNumberToStringFormat(amount, data.form.investedAmount);
+
+        this.selected = this.loans[index].id
+        this.invested.push(this.loans[index].id)
+        
+        this.totalAmount -= data.form.investedAmount; 
+    }
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe()
+  }
+}

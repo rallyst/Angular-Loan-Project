@@ -1,12 +1,70 @@
 .container {
-  max-width: 400px;
-  max-height: 400px;
+  position: relative;
+  padding: 40px;
 }
 
-mat-dialog-content {
-  display: flex;
+.header {
+  font-size: 2rem;
+  font-weight: 500;
+  margin-bottom: 32px;
+}
+
+.title {
+  font-size: 1.25rem;
+  margin-bottom: 32px;
+}
+
+.details {
+  margin-bottom: 8px;
+  font-size: 1.25rem;
 }
 
 .close-btn {
-  
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  transition: transform .25s;
+	opacity: .7;
+	cursor: pointer;
+	font-size: 3rem;
+
+  &::before {
+    content: "\d7";
+  }
+
+  &:hover {
+    opacity: 1;
+	  transform: rotate(90deg);
+  }
+}
+
+.loan-data {
+  margin-bottom: 64px;
+}
+
+.form-control {
+  display: flex;
+
+  input {
+    width: 328px;
+    height: 50px;
+    border-radius: 5px;
+    border: 1px solid rgba(48, 50, 71, 0.1);
+    box-shadow: 1px 1px 4px rgba(128, 128, 128, .4);
+    margin-right: 32px;
+    outline: rgba(48, 50, 71, 0.1);
+    text-align: end;
+    font-size: 1.25rem;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+}
+
+.form-header {
+  font-size: 1.9rem;
+  margin-bottom: 29px;
 }
